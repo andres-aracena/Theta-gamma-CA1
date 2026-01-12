@@ -282,7 +282,7 @@ if cfg.connectPC2PC:
    
        
       
-
+      
 if cfg.doAlvstim:
     
     scanz_starttime = cfg.starttime
@@ -293,13 +293,14 @@ if cfg.doAlvstim:
 
     if cfg.pvbcpopsize>0:
 
-      
+       # Para las conexiones sinápticas (PVBC/OLM), deja 'loc' comentado 
+       # para que NetPyNE distribuya las sinapsis aleatoriamente en la sección 'basal'.
        netParams.stimTargetParams['PVBC_alv'] = {'source': 'alv_bkg', 'synMech': 'PC-PVBC',
                                         'conds': {'pop': 'PVBC_pop'},                  
                                         'weight': 'uniform(0.35,0.63)',
                                         'delay': 1, 
                                         'sec': 'basal', 
-                                        'loc': 0.5, 
+                                        #'loc': 0.5,  <-- DEJAR COMENTADO AQUÍ
                                         'synsPerConn': 6*int(cfg.alv_pv_synfact/4)}
        
        netParams.stimTargetParams['PVBC_alv2'] = {'source': 'alv_bkg', 'synMech': 'PC-PVBC',
@@ -307,7 +308,7 @@ if cfg.doAlvstim:
                                         'weight': 'uniform(0.35,0.63)',
                                         'delay': 1, 
                                         'sec': 'basal', 
-                                        'loc': 0.5, 
+                                        #'loc': 0.5, 
                                         'synsPerConn': 6*int(cfg.alv_pv_synfact/4)}
            
        netParams.stimTargetParams['PVBC_alv3'] = {'source': 'alv_bkg', 'synMech': 'PC-PVBC',
@@ -315,7 +316,7 @@ if cfg.doAlvstim:
                                         'weight': 'uniform(0.35,0.63)',
                                         'delay': 1, 
                                         'sec': 'basal', 
-                                        'loc': 0.5, 
+                                        #'loc': 0.5, 
                                         'synsPerConn': 6*int(cfg.alv_pv_synfact/4)}
        
        netParams.stimTargetParams['PVBC_alv4'] = {'source': 'alv_bkg', 'synMech': 'PC-PVBC',
@@ -323,37 +324,34 @@ if cfg.doAlvstim:
                                         'weight': 'uniform(0.35,0.63)',
                                         'delay': 1, 
                                         'sec': 'basal', 
-                                        'loc': 0.5, 
+                                        #'loc': 0.5, 
                                         'synsPerConn': 6*int(cfg.alv_pv_synfact/4)  + 6*int(cfg.alv_pv_synfact % 4)}
                   
-           
-           
-       
 
     if cfg.olmpopsize>0:
   
        netParams.stimTargetParams['OLM_alv'] = {'source': 'alv_bkg', 'synMech': 'PC-OLM',
-                                                 'conds': {'pop': 'OLM_pop'},							   
+                                                 'conds': {'pop': 'OLM_pop'},                              
                                                  'weight': 'uniform(0.275,0.325)',
                                                  'delay': 1,
                                                  'sec': 'basal', 
-                                                 'loc': 0.5, 
+                                                 #'loc': 0.5, 
                                                  'synsPerConn': 5*int(cfg.alv_olm_synfact/3)}
            
        netParams.stimTargetParams['OLM_alv2'] = {'source': 'alv_bkg', 'synMech': 'PC-OLM',
-                                                 'conds': {'pop': 'OLM_pop'},							   
+                                                 'conds': {'pop': 'OLM_pop'},                              
                                                  'weight': 'uniform(0.275,0.325)',
                                                  'delay': 1,
                                                  'sec': 'basal', 
-                                                 'loc': 0.5, 
+                                                 #'loc': 0.5, 
                                                  'synsPerConn': 5*int(cfg.alv_olm_synfact/3)}
        
        netParams.stimTargetParams['OLM_alv3'] = {'source': 'alv_bkg', 'synMech': 'PC-OLM',
-                                                 'conds': {'pop': 'OLM_pop'},							   
+                                                 'conds': {'pop': 'OLM_pop'},                              
                                                  'weight': 'uniform(0.275,0.325)',
                                                  'delay': 1,
                                                  'sec': 'basal', 
-                                                 'loc': 0.5, 
+                                                 #'loc': 0.5, 
                                                  'synsPerConn': 5*int(cfg.alv_olm_synfact/3)
                                                   + 5*int(cfg.alv_olm_synfact % 3)
                                                  }
@@ -363,17 +361,15 @@ if cfg.doAlvPYRclamp:
     doIclampsoma = True
     doIclampdend = True
     
-    
-    
     if doIclampsoma:
      
         netParams.stimSourceParams['I1'] = {'type': 'IClamp', 'del': 0, 
                                         'dur': cfg.duration, 'amp': cfg.alvsomaclampamp}
-        
+
         netParams.stimTargetParams['I1targ'] = {'source': 'I1', 
                                            'conds': {'cellType': cfg.alvclamptarg, 
                                                      'cellModel': cfg.alvclamptarg}, 
-      									   'sec': 'soma_0', 'loc': 0.5}
+                                           'sec': 'soma_0', 'loc': 0.5} 
     
     if doIclampdend:
         
@@ -387,4 +383,4 @@ if cfg.doAlvPYRclamp:
             netParams.stimTargetParams['I2targ_' + x] = {'source': 'I2', 
                                                'conds': {'cellType': cfg.alvclamptarg, 
                                                          'cellModel': cfg.alvclamptarg}, 
-          									   'sec': x, 'loc': 0.5}
+                                               'sec': x, 'loc': 0.5} 

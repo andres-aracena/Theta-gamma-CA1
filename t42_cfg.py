@@ -11,15 +11,15 @@ from netpyne import specs
 ## Population parameters
 cfg = specs.SimConfig()					# object of class SimConfig to store simulation configuration
 
-cfg.duration = 600
+cfg.duration = 2000
 cfg.starttime = 300
 cfg.seedval = 42
 
-cfg.pyrpopsize = 1
+cfg.pyrpopsize = 20
 cfg.pcscalenum = 1 
-cfg.pvbcpopsize = 1
+cfg.pvbcpopsize = 5
 cfg.pvscalenum = 1
-cfg.olmpopsize = 3
+cfg.olmpopsize = 5
 cfg.olmscalenum = 1 
 
 cfg.connectPC2PC = False # False
