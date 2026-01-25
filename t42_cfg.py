@@ -5,7 +5,6 @@ Created on Tue Feb  9 14:41:05 2021
 
 @author: adam
 """
-
 from netpyne import specs
 
 ## Population parameters
@@ -15,11 +14,11 @@ cfg.duration = 600
 cfg.starttime = 300
 cfg.seedval = 42
 
-cfg.pyrpopsize = 1
+cfg.pyrpopsize = 100
 cfg.pcscalenum = 1 
 cfg.pvbcpopsize = 1
 cfg.pvscalenum = 1
-cfg.olmpopsize = 3
+cfg.olmpopsize = 10
 cfg.olmscalenum = 1 
 
 cfg.connectPC2PC = False # False
@@ -47,7 +46,7 @@ cfg.olmdepfact = 38
 cfg.olmfacfact = 470
 cfg.pvbcdep  = 110
 cfg.pvbcfac = 0 
-cfg.olm_pc_gaba_tau = 18
+cfg.olm_pc_gaba_tau = 11.8
 cfg.olm2pcDep = 1770
 cfg.olm2pcFac = 6
 cfg.pv_pc_gaba_tau_fact = 1
@@ -119,8 +118,8 @@ cfg.analysis['plotRaster'] = {'include': ['artif_pyr', 'PYR_pop', 'PVBC_pop', 'O
                                     'markerSize': 6}
 
 
-cfg.recordTraces['V_soma'] = {'sec':'soma_0','loc':0.5,'var':'v'}
-
+# cfg.recordTraces['V_soma'] = {'sec':'soma_0','loc':0.5,'var':'v'} Change it for reduce time, it is not necessary for DDM. Change instead for:
+cfg.recordTraces = {}
  
     
 cfg.analysis['plotTraces'] = {'include': [4],                                       
@@ -129,7 +128,7 @@ cfg.analysis['plotTraces'] = {'include': [4],
                                         } 
 
     
-recordapictraces = True
+recordapictraces = False #change to False for reducing time since it is not necessary for DDM
 if recordapictraces:
   for x1 in range(10):
     s1 = 'dend_' + str(x1*2)

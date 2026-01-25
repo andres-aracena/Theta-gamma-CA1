@@ -37,7 +37,7 @@ random.seed(cfg.seedval)
 
 somator=True
 
-'''if cfg.pvbcpopsize>0:
+if cfg.pvbcpopsize>0:
 
     netParams.importCellParams(label='PVBC_rule', conds= {'cellType': 'PVBC', 'cellModel': 'PVBC'},
           	fileName=r'C:/Users/Usuario/Documents/LASCON_Project/pvbc.hoc',cellName='cNACnoljp', somaAtOrigin=somator)
@@ -45,7 +45,7 @@ somator=True
     netParams.popParams['PVBC_pop'] = {'cellType': 'PVBC', 
                                        'numCells': cfg.pvbcpopsize, 
                                        'cellModel': 'PVBC'}
-'''
+
 
 
 if cfg.olmpopsize>0:
@@ -72,8 +72,8 @@ SCsecList = []
 SCsomaDist = [100,350]
 OLMsecList = []
 OLMsomaDist = cfg.OLMsomaDist
-#PVBCsomaDist = cfg.PVBCsomaDist #50
-#PVBCsecList = []    
+PVBCsomaDist = cfg.PVBCsomaDist #50
+PVBCsecList = []    
     
      
     
@@ -92,9 +92,9 @@ for secName, sec in netParams.cellParams['PYR_rule'].secs.items():
                 #print(secName, distSec, sec['geom']['diam'])
              if distSec > OLMsomaDist:
                 OLMsecList.append(secName)
-         #if secName[0:4] == 'dend' or secName[0:4] == 'soma':
-            # if distSec < PVBCsomaDist:
-             #   PVBCsecList.append(secName)          
+         if secName[0:4] == 'dend' or secName[0:4] == 'soma':
+             if distSec < PVBCsomaDist:
+                PVBCsecList.append(secName)          
                                
 
 
@@ -108,14 +108,14 @@ netParams.synMechParams['PC-OLM'] = {'mod': 'DetAMPANMDA',
                                           'NMDA_ratio': 0.28}
 
 
-'''netParams.synMechParams['PC-PVBC'] = {'mod': 'DetAMPANMDA', 
+netParams.synMechParams['PC-PVBC'] = {'mod': 'DetAMPANMDA', 
                                       'tau_d_AMPA': 4.12, 
                                           'tau_d_NMDA': 298.75,
                                           'Use':  0.32,
                                           'Dep': cfg.pvbcdep, 
                                           'Fac': cfg.pvbcfac, 
                                           'NMDA_ratio': 0.28}
-'''
+
 
 
 
@@ -144,19 +144,19 @@ netParams.synMechParams['OLM-PC'] = {'mod': 'DetGABAAB',
 
 
 
-'''netParams.synMechParams['PVBC-PC'] = {'mod': 'DetGABAAB',
+netParams.synMechParams['PVBC-PC'] = {'mod': 'DetGABAAB',
                                       'tau_d_GABAA': 5.94*cfg.pv_pc_gaba_tau_fact, 
                                           'Use': 0.16, 
                                           'Dep': cfg.pvbc2pcDep, 'Fac': cfg.pvbc2pcFac}
-'''
 
 
-'''netParams.synMechParams['PVBC-PVBC'] = {'mod': 'DetGABAAB', 'tau_d_GABAA': 2.67, 
+
+netParams.synMechParams['PVBC-PVBC'] = {'mod': 'DetGABAAB', 'tau_d_GABAA': 2.67, 
                                           'Use': 0.26, 
                                           'Dep': 930, 
                                           'Fac': 1.6 
                                           }
-'''
+
 
                                           
 netParams.np_pc_olm_hibound = cfg.pc_olm_hibound
@@ -197,8 +197,8 @@ netParams.pv_pc_synfact = cfg.pv_pc_synfact
 netParams.pvscalenum = cfg.pvscalenum
 netParams.pcscalenum = cfg.pcscalenum
 
-#netParams.pvbc_pvbc_conprob = cfg.pvbc_pvbc_conprob # 0.35
-#netParams.pvbc_pvbc_synfact = cfg.pvbc_pvbc_synfact
+netParams.pvbc_pvbc_conprob = cfg.pvbc_pvbc_conprob # 0.35
+netParams.pvbc_pvbc_synfact = cfg.pvbc_pvbc_synfact
   
 
 if cfg.connectPCOLM: 
@@ -218,7 +218,7 @@ if cfg.connectPCOLM:
     
     
     
-'''if cfg.connectPCPVBC:
+if cfg.connectPCPVBC:
     netParams.connParams['PC-PVBC'] = {
  	'preConds': {'pop': 'PYR_pop'}, 
     'postConds': {'pop': 'PVBC_pop'}, 
@@ -228,7 +228,7 @@ if cfg.connectPCOLM:
     'weight': 'uniform(0.3,0.7)*np_pc_pv_wei',
  	'sec': 'basal'
      }
-'''
+
 
 
 
@@ -245,7 +245,7 @@ if cfg.connectOLMPC and cfg.pyrpopsize>0:
 
 
 
-'''if cfg.connectPVBCPC and cfg.pyrpopsize>0:
+if cfg.connectPVBCPC and cfg.pyrpopsize>0:
     netParams.connParams['PVBC-PC'] = {
  	'preConds': {'pop': 'PVBC_pop'}, 
     'postConds': {'pop': 'PYR_pop'}, 
@@ -256,10 +256,10 @@ if cfg.connectOLMPC and cfg.pyrpopsize>0:
  	'delay': 'uniform(0.5,2)', 				
     'sec': PVBCsecList,
      }			
-'''    
+    
 
 
-'''if cfg.connectPVBC2PVBC:
+if cfg.connectPVBC2PVBC:
     netParams.connParams['PVBC-PVBC'] = {
     'preConds': {'pop': 'PVBC_pop'}, 
     'postConds': {'pop': 'PVBC_pop'},    
@@ -269,7 +269,7 @@ if cfg.connectOLMPC and cfg.pyrpopsize>0:
  	'delay': 'uniform(0.5,1)',
  	'sec': 'basal'
      }				
-'''
+
 
 
 if cfg.connectPC2PC:    
@@ -294,7 +294,7 @@ if cfg.doAlvstim:
                                             'interval': cfg.scanz_fval, 
                                             'number': cfg.scanz_stimtotnum, 
                                                 'start': scanz_starttime}
-'''
+
     if cfg.pvbcpopsize>0:
 
       
@@ -303,7 +303,7 @@ if cfg.doAlvstim:
                                         'weight': 'uniform(0.35,0.63)',
                                         'delay': 1, 
                                         'sec': 'basal', 
-                                        #'loc': 0.5, de una versión vieja de netpyne, obsoleto en esta versión 
+                                        'loc': 0.5, 
                                         'synsPerConn': 6*int(cfg.alv_pv_synfact/4)}
        
        netParams.stimTargetParams['PVBC_alv2'] = {'source': 'alv_bkg', 'synMech': 'PC-PVBC',
@@ -311,7 +311,7 @@ if cfg.doAlvstim:
                                         'weight': 'uniform(0.35,0.63)',
                                         'delay': 1, 
                                         'sec': 'basal', 
-                                        #'loc': 0.5, de una versión vieja de netpyne, obsoleto en esta versión
+                                        'loc': 0.5, 
                                         'synsPerConn': 6*int(cfg.alv_pv_synfact/4)}
            
        netParams.stimTargetParams['PVBC_alv3'] = {'source': 'alv_bkg', 'synMech': 'PC-PVBC',
@@ -319,7 +319,7 @@ if cfg.doAlvstim:
                                         'weight': 'uniform(0.35,0.63)',
                                         'delay': 1, 
                                         'sec': 'basal', 
-                                        #'loc': 0.5, de una versión vieja de netpyne, obsoleto en esta versión
+                                        'loc': 0.5, 
                                         'synsPerConn': 6*int(cfg.alv_pv_synfact/4)}
        
        netParams.stimTargetParams['PVBC_alv4'] = {'source': 'alv_bkg', 'synMech': 'PC-PVBC',
@@ -327,20 +327,21 @@ if cfg.doAlvstim:
                                         'weight': 'uniform(0.35,0.63)',
                                         'delay': 1, 
                                         'sec': 'basal', 
-                                        #'loc': 0.5, de una versión vieja de netpyne, obsoleto en esta versión
+                                        'loc': 0.5, 
                                         'synsPerConn': 6*int(cfg.alv_pv_synfact/4)  + 6*int(cfg.alv_pv_synfact % 4)}
- '''                 
+                  
            
            
        
 
-if cfg.olmpopsize>0:
+    if cfg.olmpopsize>0:
+  
        netParams.stimTargetParams['OLM_alv'] = {'source': 'alv_bkg', 'synMech': 'PC-OLM',
                                                  'conds': {'pop': 'OLM_pop'},							   
                                                  'weight': 'uniform(0.275,0.325)',
                                                  'delay': 1,
                                                  'sec': 'basal', 
-                                                 #'loc': 0.5, de una versión vieja de netpyne, obsoleto en esta versión
+                                                 'loc': 0.5, 
                                                  'synsPerConn': 5*int(cfg.alv_olm_synfact/3)}
            
        netParams.stimTargetParams['OLM_alv2'] = {'source': 'alv_bkg', 'synMech': 'PC-OLM',
@@ -348,7 +349,7 @@ if cfg.olmpopsize>0:
                                                  'weight': 'uniform(0.275,0.325)',
                                                  'delay': 1,
                                                  'sec': 'basal', 
-                                                 #'loc': 0.5, de una versión vieja de netpyne, obsoleto en esta versión
+                                                 'loc': 0.5, 
                                                  'synsPerConn': 5*int(cfg.alv_olm_synfact/3)}
        
        netParams.stimTargetParams['OLM_alv3'] = {'source': 'alv_bkg', 'synMech': 'PC-OLM',
@@ -356,7 +357,7 @@ if cfg.olmpopsize>0:
                                                  'weight': 'uniform(0.275,0.325)',
                                                  'delay': 1,
                                                  'sec': 'basal', 
-                                                 #'loc': 0.5, de una versión vieja de netpyne, obsoleto en esta versión
+                                                 'loc': 0.5, 
                                                  'synsPerConn': 5*int(cfg.alv_olm_synfact/3)
                                                   + 5*int(cfg.alv_olm_synfact % 3)
                                                  }
